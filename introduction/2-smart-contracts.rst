@@ -1,26 +1,26 @@
 ################################################################################
-Smart-contracts
+2 智能合约
 ################################################################################
 .. contents::
   :local:
   :depth: 2
 
-A smart contract (hereinafter, "contract") is a basic element of applications, which performs a single action (typically, makes a record in a database table), initiated from the user interface by a user or by another contract. All operations with data in applications are formed as a system of contracts, interacting with each other through database tables or by call functions in a contract body.
+智能合同（以下简称“合同”）是应用程序的基本元素，它执行单个操作（通常是在数据库表中创建记录），由用户或另一个合同从用户界面启动。在应用程序中使用数据的所有操作都是作为契约系统形成的，通过数据库表或合同主体中的调用函数相互交互。
 
-Contracts are written using an original (developed by the team of platform developers) Turing-complete script language called Simvolio, with compilation into bytecode. The language includes a set of functions, operators and constructions that can be used for implementation of data processing algorithms and operations with the database. 
+合约是使用原始（由平台开发团队开发的）图灵完全脚本语言Simvolio编写的，并编译为字节码。该语言包括一组函数，操作符和构造，可用于实现数据处理算法和数据库操作。
 
-Contracts can be edited, but only if editing was not forbidden by way of putting false in the contract editing rights. Operations with data in the blockchain are performed by the most up-to-date (current) version of the contract. The complete history of changes made to contracts is stored in the blockchain and available from the software client.
+合同可以编辑，但只有在合同编辑权利中不允许编辑的情况下才允许编辑。区块链中数据的操作由合同的最新（当前）版本执行。对合同所做更改的完整历史记录存储在区块链中，并可从软件客户端获取。
 
 ********************************************************************************
-Structure of the contract
+合同的结构
 ********************************************************************************
-Contracts are declared with the contract keyword, followed by the new contract's name. The contract's body should be enclosed in curly brackets. Every contract consists of three sections:
+合同是用合同关键字声明的，后面跟着新的合同名称。 合同的机构应该用大括号括起来。 每份合约由三部分组成：
 
-1. **data** - declares the input data (names and types of variables),
-2. **conditions** - verifies the correctness of input data,
-3. **action** - includes the actions performed by the contract.
+1. **data** - 声明输入数据（变量的名称和类型），
+2. **conditions** - 验证输入数据的正确性，
+3. **action** - 包括合同执行的行为。
 
-Contract structure:
+合同结构：
 
 .. code:: js
 
@@ -38,21 +38,21 @@ Contract structure:
   }
   
 
-Data section
+数据部分
 ==============================
-The contract input data, as well as the parameters of the form for the reception of the data are described in the **data** section. 
-The data are listed line by line: first, the variable name is specified (only variables, but not arrays are transferred), then the type and the parameters for building of the interface form are indicated optionally through a gap in double quotation marks:
+**数据**部分描述了合同输入数据以及接收数据的表单参数。
+数据逐行列出：首先，指定了变量名称（只有变量，但不传递数组），然后可以通过双引号中的间隙指定接口表单的类型和参数：
 
-* *hidden* - hidden element of the form,
-* *optional* - form element without obligatory filling in,
-* *date* - field of the date and time selection,
-* *polymap* - map with the selection of coordinates and areas,
-* *map* - map with the ability to mark the place,
-* *image* - images upload,
-* *text* - entry of the text of HTML-code in the textarea field,
-* *crypt:Field* - create and encrypt a private key for the destination specified in the *Field* field. If only ``crypt`` is specified, then the private key will be created for the user who signs the contract,
-* *address* - field for input of the account address,
-* *signature:contractname* - a line to display the contractname contract, which requires the signatures (it is discussed in detail in a special description section).
+* *hidden* - 表单的隐藏元素，
+* *optional* - 没有强制填写的表单元素，
+* *date* - 日期和时间选择的字段，
+* *polymap* - 具有坐标和区域选择的地图，
+* *map* - 具有标记地点的能力的地图，
+* *image* - 图片上传，
+* *text* - 在textarea字段中输入HTML代码的文本，
+* *crypt：Field* - 为*Field*字段中指定的目的地创建并加密私钥。如果只指定了“crypt”，那么将为签署合同的用户创建私钥，
+* *address* - 用于输入帐户地址的字段，
+* *签名：合同名称* - 显示合同名称合同的行，需要签名（在特殊说明部分详细讨论）。
 
 .. code:: js
 
@@ -67,9 +67,9 @@ The data are listed line by line: first, the variable name is specified (only va
     ...
   }
     
-Conditions section
+条件部分
 ==============================
-Validation of the data obtained is performed in the section. The following commands are used to warn of the presence of errors: ``error``, ``warning``, ``info``. In fact, all they generate an error that stops the contract operation, but display different messages in the interface: *critical error*, *warning*, and *informative error*. For instance, 
+验证获得的数据在本节中进行。 以下命令用于警告错误的存在：“错误”，“警告”，“信息”。 事实上，他们都会产生一个错误来停止合约操作，但在界面中显示不同的消息：*严重错误*，*警告*和*信息错误*。 例如，
 
 .. code:: js
 
@@ -83,9 +83,9 @@ Validation of the data obtained is performed in the section. The following comma
         info "You have been already registered"
   }
   
-Action section
+行动部分
 ==============================
-The action section contains the contract's main program code that retrieves additional data and records the resulting values to database tables. For example,
+操作部分包含合同的主程序代码，用于检索附加数据并将结果值记录到数据库表中。 例如，
 
 .. code:: js
 
@@ -95,22 +95,22 @@ The action section contains the contract's main program code that retrieves addi
 	}
 
 
-Variables in the contract
+合同中的变量
 ==============================
-Contract input data, declared in the data section, is passed to other sections though variables with the ``$`` sign followed by data names. The ``$`` sign can be used to declare additional variables; such variables will be considered global for this contract and all nested contracts.
+在数据部分中声明的合同输入数据通过带有``````符号的变量，后跟数据名称传递给其他部分。 ``````符号可以用来声明额外的变量; 这些变量将被视为全球合约和所有嵌套合同。
 
-A contract can access predefined variables that contain data about the transaction, from which this contract was called.
+合同可以访问预定义的变量，这些变量包含关于调用该合同的事务的数据。
 
-* ``$time` – transaction time, int,
-* ``$ecosystem_id`` – ecosystem ID, int,
-* ``$block`` – number of the block, in which this transaction is included, int,
-* ``$key_id`` – ID of the account that signed the transaction; the value will be zero for VDE contracts,
-* ``$wallet_block`` – address of the node that formed the block, in which this transaction is included,
-* ``$block_time`` – time, when the block with the transaction containing the current contract was formed.
+* ``$ time` - 交易时间，int，
+* ``ecos_id`` - 生态系统ID，int，
+* ``$ block`` - 包含此事务的块号，int，
+* ``$ key_id`` - 签署交易的账户的ID; VDE合同的价值将为零，
+* ``$ wallet_block`` - 形成包含此事务的块的节点的地址，
+* ``block_time`` - 当包含当前合约的交易的块形成时。
 
-Predefined variables are accessible not only in contracts, but also in Permissions fields, (where conditions for access to application elements are defined), where they are used in construction of logical expressions. When used in Permissions fields, variables related to block formation (``$time``, ``$block``, etc.) always equal zero.
+预定义的变量不仅可以在合同中访问，也可以在权限字段（定义访问应用程序元素的条件）中访问，它们用于构建逻辑表达式。 当在Permissions域中使用时，与块形成相关的变量（``$ time``，``$ block``等）总是等于零。
 
-Predefined variable $result is used to return a value from a nested contract.
+预定义的变量$ result用于从嵌套合同中返回一个值。
 
 .. code:: js
 
