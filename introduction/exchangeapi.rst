@@ -1,28 +1,28 @@
 ################################################################################
-Description of the api requests
+api请求的描述
 ################################################################################
 
-The API allows creating private keys (wallets) on request to receive funds and then send them to other wallets. All the private keys created are stored in an encrypted form.
+该API允许根据请求创建私钥（钱包）以接收资金，然后将其发送给其他钱包。 所有创建的私钥都以加密的形式存储。
 
 ********************************************************************************
-Startup parameters
+启动参数
 ********************************************************************************
 
-In order to work with this API, you need to specify the following parameters when starting Apla.
+为了使用此API，您需要在启动Apla时指定以下参数。
 
-**-boltDir** - a directory where the file containing private keys will be created and stored. NoSQL database BoltDB is used to store the keys. The file is named *exchangeapi.db*. If the parameter is not specified, the file will be created in the current directory.
+**-boltDir** - 将创建并存储包含私钥的文件的目录。 NoSQL数据库BoltDB用于存储密钥。 该文件被命名为*exchangeapi.db*。 如果未指定参数，则将在当前目录中创建该文件。
 
 .. code:: 
       
       -boltDir=/home/temp
       
-**-boltPsw**  - password for encrypting private keys when writing to the database. The API will not work if the password was not specified at startup. The password specified at first startup should be specified at subsequent startups. Don’t forget the password because it is not saved anywhere. If you specify an incorrect password or you enter the word "console" as a password, then you will be prompted to enter the password in the console after running Apla. Also, if the password has already been set but not specified in the command line parameter, it will be requested for in the console.
+**-boltPsw**  - 写入数据库时用于加密私钥的密码。 如果在启动时未指定密码，API将不起作用。 首次启动时指定的密码应在后续启动时指定。 不要忘记密码，因为它没有保存在任何地方。 如果您指定的密码不正确或者输入单词“console”作为密码，则在运行Apla后，系统会提示您在控制台中输入密码。 另外，如果密码已被设置，但未在命令行参数中指定，则将在控制台中请求该密码。
 
 .. code:: 
 
       -boltPsw=mypass344
       
-**-apiToken**  - this parameter specifies the token that will need to be passed when making a request to the API. The token specified will be saved, and can be omitted in subsequent startups. If this parameter has not been specified, then you will be able to call API commands without specifying the token parameter. If you'll need to change the token, you should start Apla with a new value in this parameter.
+**-apiToken**  - 此参数指定在向API发出请求时需要传递的标记。 指定的令牌将被保存，并且可以在随后的启动中省略。 如果这个参数没有被指定，那么你将能够在不指定token参数的情况下调用API命令。 如果您需要更改令牌，则应在此参数中使用新值启动Apla。
 
 .. code:: 
 
@@ -32,11 +32,11 @@ In order to work with this API, you need to specify the following parameters whe
 API requests
 ********************************************************************************
 
-Responses to API requests are in JSON format and all of them have an error field. If this field is empty, then the request has been executed without errors. Otherwise, the field contains the text of the error that has occurred.
+对API请求的响应采用JSON格式，并且它们都有错误字段。 如果该字段为空，则该请求已被执行而没有错误。 否则，该字段将包含发生错误的文本。
 
 /exchangeapi/newkey
 ==============================
-The command generates a private key, records it to a key file, and returns the public key and wallet addresses. For example:
+该命令生成一个私钥，将其记录到密钥文件中，并返回公钥和钱包地址。 例如：
 
 
 */exchange/newkey?token=qweuytwuy347834*
@@ -53,7 +53,7 @@ Response example:
 
 /exchange/send?sender=...&recipient=...&amount=...
 ==============================
-This command sends money from wallet (**sender**) in the DB to the specified wallet (**recipient**). Wallets can be specified in any format - *XXXX-....-XXXX, int64, uint64*. Please note, that the command sends the transaction, but does not wait for the confirmation of receipt. The amount to send (**amount**) should be specified in *qEGS*. The transaction hash is returned in the **txhash** field.
+该命令将钱包中的钱包（**sender**）发送到指定的钱包（**recipient**）。 钱包可以用任何格式指定 - *XXXX -....- XXXX，int64，uint64*。 请注意，该命令发送交易，但不等待确认收货。 发送金额（**amount**）应在*qEGS*中指定。 事务哈希在**txhash**字段中返回。
 
 For example,
 

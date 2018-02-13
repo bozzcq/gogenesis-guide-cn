@@ -101,14 +101,14 @@
 
 合同可以访问预定义的变量，这些变量包含关于调用该合同的事务的数据。
 
-* ``$ time` - 交易时间，int，
+* ``$ time`` - 交易时间，int，
 * ``ecos_id`` - 生态系统ID，int，
 * ``$ block`` - 包含此事务的块号，int，
 * ``$ key_id`` - 签署交易的账户的ID; VDE合同的价值将为零，
 * ``$ wallet_block`` - 形成包含此事务的块的节点的地址，
 * ``block_time`` - 当包含当前合约的交易的块形成时。
 
-预定义的变量不仅可以在合同中访问，也可以在权限字段（定义访问应用程序元素的条件）中访问，它们用于构建逻辑表达式。 当在Permissions域中使用时，与块形成相关的变量（``$ time``，``$ block``等）总是等于零。
+预定义的变量不仅可以在合同中访问，也可以在权限字段（定义访问应用程序元素的条件）中访问，它们用于构建逻辑表达式。 当在Permissions域中使用时，与块形成相关的变量（``$ time``，``$ block`` 等）总是等于零。
 
 预定义的变量$ result用于从嵌套合同中返回一个值。
 
@@ -132,16 +132,16 @@
   }
   
 ********************************************************************************
-Nested Contracts 
+嵌套合同
 ********************************************************************************
-A nested contract can be called from the conditions and action sections of the enclosing contract. A nested contract can be called directly with parameters specified in parenthesis after its name (NameContract(Params)), or using the CallContract function, for which the contract name is passed using a string variable.
+可以从封闭合同的条件和操作部分调用嵌套合同。可以直接使用名称后面的括号中指定的参数（NameContract（Params））或使用CallContract函数（使用字符串变量为其传递协定名称）来调用嵌套协定。
 
 ********************************************************************************
-Contracts with signature
+签字合同
 ********************************************************************************
-Since the language of contracts writing allows performing enclosed contracts, it is possible to fulfill such an enclosed contract without the knowledge of the user who has run the external contract that may lead to the user's signature of transactions unauthorized by it, let's say the transfer of money from its account.
+由于合同写作的语言允许执行封闭式合同，因此可以在不知道已经运行外部合同的用户的情况下完成这样的随附合同，这可能导致用户对其未经授权的交易进行签名，比如，转让来自其帐户的资金。
 
-Let's suppose there is a TokenTransfer Contract *TokenTransfer*:
+假设有一个TokenTransfer契约 *TokenTransfer* ：
 
 .. code:: js
 
@@ -153,9 +153,9 @@ Let's suppose there is a TokenTransfer Contract *TokenTransfer*:
         ...
     }
 
-If in a contract launched by the user the string ``TokenTransfer("Recipient,Amount", 12345, 100)`` is inscribed, 100 coins will be transferred to the account 12345. In such a case the user who signs an external contract will remain not in the know of the transaction. This situation may be excluded if the TokenTransfer contract requires the additional user's signature upon its calling in of contracts. To do this:
+如果在由用户发起的合同中签署了字符串 ``TokenTransfer（“收件人，金额”，12345,100）``，则100个硬币将被转移到账户12345.在这种情况下，签署外部合同的用户 将不会了解交易。 如果TokenTransfer合同在其调用合同时需要额外的用户签名，则可能会排除此情况。 去做这个：
 
-1. Adding a field with the name **Signature** with the ``optional`` and ``hidden`` parameters in the *data* section of the *TokenTransfer* contract, which allow not to require the additional signature in the direct calling of the contract, since there will be the signature in the **Signature** field so far.
+1.在 *TokenTransfer* 合约的 *data* 部分添加一个名为 **Signature** 的字段，其中带有 ``optional`` 和 ``hidden`` 参数，这样就不需要额外的签名 直接呼叫合同，因为到目前为止 **签名** 字段中将有签名。
 
 .. code:: js
 
@@ -168,21 +168,21 @@ If in a contract launched by the user the string ``TokenTransfer("Recipient,Amou
         ...
     }
 
-2. Adding in the *Signatures* table (on the page *Signatures* of platform client) the entry containing:
+2.在 *Signatures* 表格（在页面上*平台客户端的签名*）中添加包含以下内容的条目：
 
-•	*TokenTransfer* contract name,
-•	field names whose values will be displayed to the user, and their text description,
-•	text to be displayed upon confirmation.
-  
-In the current example it will be enough specifying two fields **Receipient** and **Amount**:
+- *TokenTransfer* 合约名称，
+- 其值将显示给用户的字段名称及其文本说明，
+- 确认后要显示的文字。
+  
+在当前的例子中，它将足够指定两个字段**收件人**和**金额**：
 
-* **Title**: Are you agree to send money this recipient?
-* **Parameter**: Receipient Text: Account ID
-* **Parameter**: Amount Text: Amount (qEGS)
+* **标题**：您是否同意将此收款人汇款？
+* **参数**：收件人文本：账户ID
+* **参数**：金额文本：金额（qEGS）
 
-Now, if inserting the ``TokenTransfer(“Recipient, Amount”, 12345, 100)`` contract calling in, the system error ``“Signature is not defined”`` will be displayed. If the contract is called in as follow: ``TokenTransfer("Recipient, Amount, Signature", 12345, 100, "xxx...xxxxx")``, the system error will occur upon signature verification. Upon the contract calling in, the following information is verified: *time of the initial transaction, user ID, the value of the fields specified in the signatures table*, and it is impossible to forge the signature.
+现在，如果插入``TokenTransfer（“Recipient，Amount”，12345，100）``调用合同，系统错误```Signature'未定义'``将被显示。如果按照以下方式调用合同：TokenTransfer（“收件人，金额，签名”，12345,100，“xxx ... xxxxx”），系统错误将在签名验证时发生。在签订合同后，验证以下信息：*初始交易的时间，用户ID，签名表*中指定的字段的值，并且不可能伪造签名。
 
-In order for the user to see the money transfer confirmation upon the *TokenTransfer* contract calling in, it is necessary to add a field with an arbitrary name and the type ``string``, and with the optional parameter ``signature:contractname``. Upon calling in of the enclosed *TokenTransfer* contract, you just need to forward this parameter. It should also be borne in mind that the parameters for the secured contract calling in must also be described in the ``data`` section of the external contract (they may be hidden, but they will still be displayed upon confirmation). For instance,
+为了使用户在调用*TokenTransfer*合同时看到汇款确认，需要添加一个任意名称和字符串类型的字段，并使用可选参数``signature：contractname ``。在调用随附的*TokenTransfer*合同后，您只需转发此参数。还应该记住，必须在外部合同的“数据”部分中描述担保合同的参数（它们可能是隐藏的，但仍会在确认时显示）。例如，
 
 .. code:: js
 
@@ -197,50 +197,50 @@ In order for the user to see the money transfer confirmation upon the *TokenTran
       }
     }
 
-When sending a *MyTest* contract, the additional confirmation of the money transfer to the indicated account will be requested from user. If other values, such as ``TokenTransfer(“Recipient,Amount,Signature”,$Recipient, $Amount+10, $Signature)``, are listed in the enclosed contract, the invalid signature error will occur.
+当发送 *MyTest* 合同时，将向用户请求向指定账户转账的额外确认。如果在随附的合同中列出了其他值，如TokenTransfer（“收件人，金额，签名”，$收款人，$金额+ 10，$签名）``，则会出现无效签名错误。
 
-********************************************************************************
-Contract Editor
-********************************************************************************
-Contracts can be created and edited in a special editor which is a part of the Molis software client. Each new contract has a typical structure created in it by default with three sections: ``data, conditions, action``. The contracts editor helps to:
+************************************************** ******************************
+合约编辑器
+************************************************** ******************************
+合约可以在Molis软件客户端的特殊编辑器中创建和编辑。每个新合约都有一个典型的结构，默认情况下有三个部分：``data，conditions，action``。合约编辑有助于：
 
-- Write the contract code (highlighting key words of the Simvolio language,
-- Format the contract source code,
-- Bind the contract to an account, from which the payment for its execution will be charged, 
-- Define permissions to edit the contract (typically, by specifying the contract name with the permissions stipulated in a special function ContractConditions or by way of direct indication of access conditions in the Change conditions field),
-- View the history of changes made to the contract with the option to restore previous versions.
+- 编写合同代码（突出显示Simvolio语言的关键词，
+- 格式化合约源代码，
+- 将合同绑定到一个帐户，从中扣除执行的费用，
+- 定义编辑合同的权限（通常，通过指定具有特殊功能ContractConditions中规定的权限的合同名称，或通过直接指示更改条件字段中的访问条件），
+- 通过恢复以前版本的选项查看对合同所做更改的历史记录。
 
-********************************************************************************
-Simvolio Contracts Language
-********************************************************************************
-Contracts in the platform are written using an original (developed by the platform team) Turing-complete script language called Simvolio, with compilation into bytecode. The language includes a set of functions, operators and constructions that can be used for implementation of data processing algorithms and operations with the database. The Simvolio language provides for:
+************************************************** ******************************
+Simvolio合同语言
+************************************************** ******************************
+平台中的契约使用原始（由平台团队开发）图灵完整脚本语言Simvolio编写，并编译为字节码。该语言包括一组函数，操作符和构造，可用于实现数据处理算法和数据库操作。 Simvolio语言提供：
 
-- Declaration of variables with different data types, as well as simple and associative arrays: var, array, map,
-- Use of the ``if`` conditional statement and the ``while`` loop structure,
-- Retrieval of values from the database and recording data to database ``DBFind, DBInsert, DBUpdate``,
-- Work with contracts,
-- Conversion of variables,
-- Operations with strings.
+- 声明不同数据类型的变量，以及简单的和关联的数组：var，array，map，
+- 使用“if”条件语句和“while”循环结构，
+- 从数据库中检索数据并将数据记录到数据库``DBFind，DBInsert，DBUpdate``，
+- 处理合同，
+- 变量的转换，
+- 使用字符串的操作。
 
-Basic elements and constructions of the language
+该语言的基本元素和结构
 ==============================
-Data Types and Variables
+数据类型和变量
 ------------------------------
-Data type should be defined for every variable. In obvious cases, data types are converted automatically. The following data types can be used:
+应该为每个变量定义数据类型。在明显的情况下，数据类型会自动转换。可以使用以下数据类型：
 
-* ``bool`` - Boolean, can be true or false,
-* ``bytes`` - a sequence of bytes,
-* ``int`` - a 64-bit integer,
-* ``address`` - a 64-bit unsigned integer,
-* ``array`` - an array of values of arbitrary types,
-* ``map`` - an associative array of values of arbitrary data types with string keys,
-* ``money`` - an integer of the big integer type; values are stored in the database without decimal points, which are added when displaying values in the user interface in accordance with the currency configuration settings,
-* ``float`` - a 64-bit number with a floating point,
-* ``string`` - a string; should be defined in double quotes or back quotes: "This is a string" or `This is a string`.
+* ``bool`` - 布尔值可以为true或false，
+* ``bytes`` - 一个字节序列，
+* ``int`` - 一个64位整数，
+* ``address`` - 一个64位无符号整数，
+* ``array`` - 任意类型的值的数组，
+* ``map`` - 任意数据类型与字符串键值的关联数组，
+* ``money`` - 大整数类型的整数;值存储在数据库中，不带小数点，当根据货币配置设置在用户界面中显示值时添加小数点，
+* ``float`` - 带浮点的64位数字，
+* ``string`` - 一个字符串;应该用双引号或后引号定义：“这是一个字符串”或“这是一个字符串”。
 
-All identifiers, including the names of variables, functions, contracts, etc. are case sensitive (MyFunc and myFunc are different names). 
+所有标识符，包括变量名称，函数，合同等都区分大小写（MyFunc和myFunc是不同的名称）。
 
-Variables are declared with the **var** keyword, followed by names and types of variables. Variables declared inside curly brackets should be used within the same pair of curly brackets. When declared, variables have default values: for *bool* type it is *false*, for all numeric types – zero values, for strings – empty strings. Examples of variables declaration: 
+变量用 **var** 关键字声明，接着是变量名称和类型。在大括号内声明的变量应该在同一对大括号内使用。声明时，变量具有默认值：对于 *bool* 类型，它是 *false*，对于所有数字类型 - 零值，对于字符串 - 空字符串。变量声明的例子：
 
 .. code:: js
 
@@ -254,14 +254,13 @@ Variables are declared with the **var** keyword, followed by names and types of 
       }
   }
 
-Arrays
-------------------------------
-The language supports two array types: 
 
-* ``array`` - a simple array with numeric index starting from zero, 
-* ``map`` - an associative array with string keys.
+数组 
+------------------------------ 
+该语言支持两种数组类型： 
 
-When assigning and и retrieving array elements, index should be put in square brackets.
+* ``array`` - 一个数字索引从零开始的简单数组， 
+* ``map`` - 一个带有字符串键的关联数组。在分配和检索数组元素时，索引应放在方括号中。
 
 .. code:: js
 
@@ -277,11 +276,11 @@ When assigning and и retrieving array elements, index should be put in square b
     s = Sprintf("%v, %v, %v", myarr[0] + mymap["value"], myarr[1], mymap["param"])
     // s = 877, This is a line, Parameter 
 
-If and While Statements
+如果和当语句
 ------------------------------
-The contract language supports the standard **if** conditional statement and the **while** loop, which can be used in functions and contracts. These statements can be nested in each other. 
+合同语言支持标准 if和while循环，可用于函数和合同。 这些语句可以相互嵌套。
 
-A keyword should be followed by a conditional statement. If the conditional statement returns a number, then it is considered as *false* when its value = zero. For example, *val == 0* is equivalent to *!val*, and *val != 0* is the same as just *val*. The **if** statement can have an **else** block, which executes in case the **if** conditional statement is false. The following comparison operators can be used in conditional statements: ``<, >, >=, <=, ==, !=``, as well as ``||`` (OR) and ``&&`` (AND).
+关键字后面应该附带一个条件语句。 如果条件语句返回一个数字，那么当它的值=零时，它被认为是 *false*。 例如，* val == 0*相当于 *！val*，* val！= 0*与 *val* 相同。 **if** 语句可以有一个 **else** 块，当 **if** 条件语句为假时执行该块。 以下比较运算符可用于条件语句：``<，>，> =，<=，==，！=``，以及 ``||``（OR）和``&&``（（ AND）。
 
 .. code:: js
 
