@@ -9,87 +9,87 @@ User Interfaces
 ********************************************************************************
 Interfaces building
 ********************************************************************************
-Integrated Development Environment of the Molis software client, which is created using the *JavaScript React library*, includes an interface editor and a virtual interface designer. Interface pages are the essential part of applications that provides for retrieval and display of data from database tables, creation of forms for receipt of user input data, passing data to contracts, and navigation between application pages. Interface pages, just as contracts, are stored in the blockchain, which ensures their protection from falsification when loading them in the software client.  
+Molis软件客户端的集成开发环境使用* JavaScript React库*创建，包括一个界面编辑器和一个虚拟界面设计器。接口页面是应用程序的重要组成部分，它提供从数据库表中检索和显示数据，创建用于接收用户输入数据的表单，将数据传递给合同以及在应用程序页面之间导航。接口页面，就像合同一样，存储在区块链中，这可以确保它们在软件客户端加载时防止伪造。 
 
 Interface Template Engine
 ==============================
-Interface elements (pages and menus) are formed on Validating Nodes in a so-called *template engine* from templates created by programmers in the interface editor of the Molis software client. All interface pages are built using the Protypo functional language developed by platform developers. Interfaces are requested from nodes on the network using the *content* API command. What the template engine sends as a reply to such request is not an HTML page, but a JSON code comprised of HTML tags that form a tree in accordance with the template structure. For testing purposes, a POST request can be sent to ``api/v2/content`` with the *template* parameter containing the name of a template to process.
+界面元素（页面和菜单）由Molis软件客户端的界面编辑器中程序员创建的模板在所谓的*模板引擎*中的验证节点上形成。所有界面页面均使用由平台开发人员开发的Protypo功能语言构建。使用* content * API命令从网络上的节点请求接口。模板引擎作为对这种请求的回复发送的内容不是HTML页面，而是由根据模板结构形成树的HTML标签组成的JSON代码。出于测试目的，可以使用包含要处理的模板名称的* template *参数将POST请求发送到`api / v2 / content`。
 
-Creating Interface Templates
+创建界面模版
 ==============================
-Interfaces can be created and edited using a specialized editor, available in the **Interface** section of administrative tools in Molis. The editor provides for:
+界面可以使用专门的编辑器创建和编辑，可在Molis的管理工具的* Interface *部分中找到。编辑提供：
 
-- Writing codes of interface pages with highlighting of keywords of the Protypo template language,
-- Selecting a menu, which will be displayed on the page,
-- Editing the page menu,
-- Configuring permission to edit the page (typically, by way of specifying the name of the contract with permissions in the *ContractConditions* function, or by direct indication of access rights in the *Change conditions* field),
-- Launching a visual interface designer,
-- Page preview.
+- 通过突出显示Protypo模板语言的关键字来编写界面页面的代码，
+- 选择一个将显示在页面上的菜单，
+- 编辑页面菜单，
+- 配置编辑页面的权限（通常，通过在* ContractConditions *函数中指定具有权限的合同名称，或通过在*更改条件*字段直接指示访问权限），
+- 推出可视界面设计师，
+- 页面预览。
 
-Visual Interface Designer
+可视界面设计器
 -----------------------------
-Visual Interface Designer allows for creating page designs without resorting to the interface source code in Protypo language. The Designer allows for setting the positions of form elements and text on the page using drag-and-drop, as well as configuring sizes and design of page blocks. The Designer provides a set of ready-to-use blocks for displaying typical data models: panels with headers, forms, and information panels. The program logics (receipt of data and conditional constructs) can be added in the page editor after the page design is created. (In the future, we plan to create a full-scale visual interface editor.)
+Visual Interface Designer允许创建页面设计，而无需使用Protypo语言的界面源代码。 Designer允许使用拖放来设置页面上表单元素和文本的位置，以及配置页面块的大小和设计。 Designer提供了一套用于显示典型数据模型的即用型块：带有页眉，表单和信息面板的面板。在创建页面设计之后，可以在页面编辑器中添加程序逻辑（接收数据和条件结构）。 （将来，我们计划创建一个全面的可视化界面编辑器。）
 
 Use of Styles
 -----------------------------
-By default, interface pages are displayed using Angular Bootstrap Angle classes. If needed, users can create their own styles. Storage of styles is implemented using a special stylesheet parameter of the ecosystem configuration table. 
+默认情况下，界面页面使用Angular Bootstrap Angle类显示。如果需要，用户可以创建自己的样式。样式的存储是使用生态系统配置表的特殊样式表参数实现的。
 
 Page Blocks
 -----------------------------
-To use typical code fragments on multiple interface pages there is an option to create page blocks and embed them in the interface code using the Insert command. Such blocks can be created and edited on the Interface page of the administrative section in Molis. For blocks, just as for pages, permissions for editing can be defined.
+要在多个界面页面上使用典型的代码片段，可以使用Insert命令创建页面块并将其嵌入到界面代码中。这些块可以在Molis的管理部分的接口页面上创建和编辑。对于块，就像页面一样，可以定义编辑权限。
 
 Language Resources Editor
 -----------------------------
-The Molis software client includes a mechanism for interface localization using a special function of the Protypo template language – LangRes, which substitutes the language resource labels on the page with corresponding text lines in the language selected by the user in the software client (or browser for the web-version of the client). A shorter syntax $lable$ can be used instead of the LangRes function. Translation of messages in pop-up windows, initiated by contracts, is carried out by the LangRes function of the Simvolio language.
+Molis软件客户端包含一个使用Protypo模板语言的特殊功能 - LangRes的接口本地化机制，它使用用户在软件客户端（或浏览器）中选择的语言的相应文本行替换页面上的语言资源标签客户的网络版）。可以使用更简短的语法$ lable $来代替LangRes函数。由Simvolio语言的LangRes函数执行由合同发起的消息在弹出窗口中的转换。
 
-Language resources can be created and edited in the Language resources section of the administrative tools of the Molis software client. A language resource consists of a label (name) and the translations of this name into different languages with the indication of corresponding two-character language identifiers (EN, FR, JP, etc.).
+语言资源可以在Molis软件客户端的管理工具的语言资源部分创建和编辑。一个语言资源由一个标签（名称）和该名称的翻译成不同的语言，并指示相应的双字符语言标识符（EN，FR，JP等）。
 
-Rights to add and change language resources can be configured using the same way as for any other table in the languages table (Tables section of the Molis administrative tools). 
+可以使用与语言表中任何其他表（Molis管理工具的表部分）相同的方式配置添加和更改语言资源的权限。
 
 ********************************************************************************
 Protypo Template Language
 ********************************************************************************
 
-Protypo functions provide for implementation of the following operations:
+Protypo函数提供了以下操作的实现：
 
-- retrieving values from the database: DBFind,
-- representation of data retrieved from the database as tables and diagrams,
-- assignment and display of values of variables, operations with data: SetVar, GetVar, Data,
-- display and comparison of date/time values: DateTime, Now, CmpTime,
-- building forms with various sets of user data input fields: Form, ImageInput, Input, RadioGroup, Select,
-- validation of data in the form fields by displaying error messages: Validate, InputErr,
-- display of navigation elements: AddToolButton, LinkPage, Button,
-- calling contracts: Button,
-- creation of HTML page layout elements – various containers with an option to specify css classes: Div, P, Span, etc.,
-- embedding images onto a page and uploading of images: Image and ImageInput,
-- conditional display of page layout fragments: ``If, ElseIf, Else``,
-- creation of multi-level menus,
-- interface localization.
+- 从数据库中检索值：DBFind，
+- 以表格和图表形式从数据库中检索数据，
+- 分配和显示变量值，操作数据：SetVar，GetVar，Data，
+- 日期/时间值的显示和比较：DateTime，Now，CmpTime，
+- 使用各种用户数据输入字段构建表单：表单，ImageInput，输入，RadioGroup，选择，
+- 通过显示错误消息验证表单字段中的数据：Validate，InputErr，
+- 导航元素的显示：AddToolButton，LinkPage，Button，
+- 呼叫合同：按钮，
+- 创建HTML页面布局元素 - 具有指定CSS类选项的各种容器：Div，P，Span等，
+- 将图像嵌入页面并上传图像：Image和ImageInput，
+- 页面布局片段的条件显示：`If，ElseIf，Else`，
+- 创建多级菜单，
+- 界面本地化。
 
-Overview of the Template Language Protypo
+模板语言Protypo概述
 ==============================
-Page template language is a functional language that allows for calling functions using ``FuncName(parameters)``, and for nesting functions into each other. Parameters can be specified without quote marks. Unnecessary parameters can be dropped.
+页面模板语言是一种功能语言，允许使用`FuncName（parameters）`调用函数，并且可以将函数嵌套到彼此中。参数可以被指定为不带引号。不必要的参数可以被丢弃。
 
 .. code:: js
 
       Text MyFunc(parameter number 1, parameter number 2) another text.
       MyFunc(parameter 1,,,parameter 4)
       
-If a parameter contains a comma, it should be enclosed in quotes marks (back quotes or double quotes). If a function can have only one parameter, commas can be used in it without quotes.  Also, quotes should be used in case a parameter has an unpaired closing parenthesis.
+如果参数包含逗号，则应该用引号（后引号或双引号）括起来。如果一个函数只能有一个参数，可以在其中使用逗号而不用引号。另外，如果参数具有不成对的右括号，则应使用引号。
 
 .. code:: js
 
       MyFunc("parameter number 1, the second part of first paremeter")
       MyFunc(`parameter number 1, the second part of first paremeter`)
       
-If you put a parameter in quotes, but a parameter itself includes quotes, then you can use different type of quotes or double them in the text.
+如果将参数放在引号中，但参数本身包含引号，则可以在文本中使用不同类型的引号或将其加倍。
       
       .. code:: js
 
       MyFunc("parameter number 1, ""the second part of first"" paremeter")
       MyFunc(`parameter number 1, "the second part of first" paremeter`)
       
-In description of functions, every parameter has a specific name. You can call functions and specify parameters in the order they were declared, or specify any set of parameters in any order by their names: ''Parameter_name: Parameter_value''. This approach allows to safely add new function parameters without breaking the compatibility with current templates. For example, all of these calls are correct in terms of language use for a function described as ''MyFunc(Class,Value,Body)'':
+在功能描述中，每个参数都有一个特定的名称。您可以调用函数并按照它们声明的顺序指定参数，也可以按任意顺序按名称指定任何一组参数：''Parameter_name：Parameter_value''。这种方法可以安全地添加新的函数参数，而不会破坏与当前模板的兼容性。例如，所有这些调用在描述为“MyFunc（Class，Value，Body）”的函数的语言使用方面都是正确的：
 
 .. code:: js
 
@@ -101,7 +101,7 @@ In description of functions, every parameter has a specific name. You can call f
       )
       MyFunc(myclass, Value without Body)
       
-Functions can return text, generate HTML elements (for instance, ''Input''), or create HTML elements with nested HTML elements (''Div, P, Span''). In the latter case a parameter with a pre-defined name **Body** should be used to define nested elements. For example, two *div*, nested in another *div*, can look like this:
+函数可以返回文本，生成HTML元素（例如，'Input''），或者使用嵌套的HTML元素（''Div'，P'，'Span''）创建HTML元素。在后一种情况下，应使用具有预定义名称* Body *的参数来定义嵌套元素。例如，两个* div *嵌套在另一个* div *中，可能如下所示：
 
 .. code:: js
 
@@ -110,7 +110,7 @@ Functions can return text, generate HTML elements (for instance, ''Input''), or 
          Div(class2, This is the second div.)
       )
       
-To define nested elements, which are described in the *Body* parameter, the following representation can be used: ``MyFunc(...){...}``. Nested elements should be specified in curly braces. 
+要定义* Body *参数中描述的嵌套元素，可以使用以下表示：`MyFunc（...）{...}`。嵌套元素应在大括号中指定。
 
 .. code:: js
 
@@ -123,46 +123,46 @@ To define nested elements, which are described in the *Body* parameter, the foll
          }
       }
       
-If you need to specify the same function a number of times in a row, you can use points instead of writing the function name every time. For example, the following lines are equal:
+如果需要连续多次指定同一个函数，则可以使用点而不是每次都写入函数名称。例如，以下几行是相等的：
      
      .. code:: js
 
      Span(Item 1)Span(Item 2)Span(Item 3)
      Span(Item 1).(Item 2).(Item 3)
      
-The language allows for assigning variables using the **SetVar** function. To substitute values of variables use ``#varname#``.
+该语言允许使用* SetVar *函数分配变量。要使用`＃varname＃`替换变量的值。
 
 .. code:: js
 
      SetVar(name, My Name)
      Span(Your name: #name#)
      
-To substitute the language resources of the ecosystem, you can use the ``$langres$``, where *langres* is the name of the language source.
+要替换生态系统的语言资源，可以使用`$ langres $`，其中* langres *是语言源的名称
 
 .. code:: js
 
      Span($yourname$: #name#)
      
-The following variables are predefined 
+以下变量是预定义的
 
 * ``#key_id#`` - current user account identifier,
 * ``#ecosystem_id#`` - current ecosystem identifier.
 
-Passing parameters to a page using PageParams
+使用PageParams将参数传递给页面
 -----------------------------
-There is a number of functions that support the **PageParams** parameter, which serves for passing parameters when redirecting to a new page. For example, ``PageParams: "param1=value1,param2=value2"``. Parameter values can be both simple strings or rows with value substitution. When parameters are passed to a page, variables with parameter names are created; for example, ``#param1#`` and ``#param2#``.  
+有许多支持* PageParams *参数的函数，用于在重定向到新页面时传递参数。例如，`PageParams：“param1 = value1，param2 = value2”`。参数值既可以是简单的字符串，也可以是具有替代值的行。当参数传递给页面时，会创建带有参数名称的变量;例如`＃param1＃`和`＃param2＃`。 
 
 * ``PageParams: "hello=world"`` - the page will receive the hello parameter with world as value,
 * ``PageParams: "hello=#world#"`` - the page will receive the hello parameter with the value of the world variable.
 
-Additionally, the **Val** function allows for obtaining data from forms, which were specified in redirect. In this case,
+此外，* Val *函数允许从重定向中指定的表单获取数据。在这种情况下，
 
 * ``PageParams: "hello=Val(world)"`` - the page will receive the hello parameter with the value of the world form element.
 
 
-Calling Contracts
+调用合约
 -----------------------------
-Protypo implements contract calling by clicking on a button in a form (*Button* function). Once  this event is initiated, the data entered by the user in the fields of the interface forms is passed to the contract (if the names of form fields correspond to the names of variables in the data section of the called contract, data is transferred automatically). The Button function allows for opening a modal window for user verification of the contract execution (Alert), and initiation of redirect to a specified page after the successful execution of the contract, and passing certain parameters to this page.    
+Protypo通过单击表单中的按钮（* Button *函数）来实现合同调用。一旦这个事件被启动，用户在界面表单的字段中输入的数据被传递给合同（如果表单域的名称与被叫合同的数据部分中的变量名称相对应，则数据将自动传输）。按钮功能允许打开一个模式窗口，供用户验证合同执行（Alert），并在成功执行合同之后重定向到指定页面，并将某些参数传递给此页面。   
 
 ********************************************************************************
 Functions of Protypo
@@ -172,7 +172,7 @@ Operations with variables
 ==============================
 GetVar(Name)
 ------------------------------
-This function returns the value of the current variable if it exists, or returns an empty string if a variable with this name is not defined. An element with **getvar** name is created only when a tree for editing is requested. The difference between ``GetVar(varname)`` and ``#varname#`` is that in case *varname* does not exist, *GetVar* will return an empty string, whereas *#varname#* will be interpreted as a string value.
+此函数返回当前变量的值（如果存在），或者如果未定义具有此名称的变量，则返回空字符串。 仅当请求编辑的树时才会创建带有* getvar *名称的元素。 “GetVar（varname）`和`＃varname＃`之间的区别在于，* varname *不存在，* GetVar *将返回一个空字符串，而*＃varname＃*将被解释为字符串值。
 
 * *Name* - variable name.
 
@@ -255,7 +255,7 @@ Data Operations
 ==============================
 And (Parameters)
 ------------------------------
-This function returns the result of execution of the **and** logical operation with all parameters listed in parentheses and separated by commas. The parameter value will be ``false`` if it equals an empty string (``""``), zero or *false*. In all other cases the parameter value is ``true``. The function returns 1 if true or 0 in all other cases. The element named ``and`` is created only when a tree for editing is requested. 
+该函数返回*和*逻辑运算的执行结果，括号中列出所有参数，并以逗号分隔。 如果参数值等于空字符串（`“”`），零或* false *，则参数值为'false'。 在所有其他情况下，参数值为“true”。 该函数返回1，如果为true，则在所有其他情况下返回0。 名为`and`的元素仅在请求编辑的树时创建。
 
 .. code:: js
 

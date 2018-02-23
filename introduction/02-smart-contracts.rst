@@ -97,7 +97,7 @@
 
 合约中的变量
 ==============================
-在数据部分中声明的合约输入数据通过具有`$`符号的变量后跟数据名称传递给其他部分。 `$`符号可以用来声明额外的变量; 这些变量将被视为全球合约和所有嵌套合同。
+在数据部分中声明的合约输入数据通过具有`$`符号的变量后跟数据名称传递给其他部分。 `$`符号可以用来声明额外的变量; 这些变量将被视为全球合约和所有嵌套合约。
 
 在 conditions 和 action 中使用data部分声明的变量，需要用$+变量名来调用，还可以用$申明额外的全局变量。
 
@@ -110,9 +110,9 @@
 * ``$wallet_block`` - 形成包含此交易的块的节点的地址，
 * ``$block_time`` - 当包含当前合约的交易的块形成时。
 
-预定义的变量不仅可以在合约中访问，也可以在权限字段（定义访问应用程序元素的条件）中访问，它们用于构建逻辑表达式。 当在Permissions域中使用时，与块形成相关的变量（``$ time``，``$ block`` 等）总是等于零。
+预定义的变量不仅可以在合约中访问，也可以在权限字段（定义访问应用程序元素的条件）中访问，它们用于构建逻辑表达式。 当在Permissions域中使用时，与块形成相关的变量（``$time``，``$block`` 等）总是等于零。
 
-预定义的变量$ result用于从嵌套合约中返回一个值。
+预定义的变量$result用于从嵌套合约中返回一个值。
 
 .. code:: js
 
@@ -139,7 +139,7 @@
 可以从封闭合约的条件和操作部分调用嵌套合约。可以直接使用名称后面的括号中指定的参数（NameContract（Params））或使用CallContract函数（使用字符串变量为其传递协定名称）来调用嵌套协定。
 
 ********************************************************************************
-签字合约
+签名合约
 ********************************************************************************
 由于合约写作的语言允许执行封闭式合约，因此可以在不知道已经运行外部合约的用户的情况下完成这样的随附合约，这可能导致用户对其未经授权的交易进行签名，比如，转让来自其帐户的资金。
 
@@ -155,9 +155,9 @@
         ...
     }
 
-如果在由用户发起的合约中签署了字符串 ``TokenTransfer（“收件人，金额”，12345,100）``，则100个硬币将被转移到账户12345.在这种情况下，签署外部合约的用户 将不会了解交易。 如果TokenTransfer合约在其调用合约时需要额外的用户签名，则可能会排除此情况。 去做这个：
+如果在由用户发起的合约中签署了字符串 ``TokenTransfer("Recipient,Amount", 12345, 100)``，则100个硬币将被转移到账户12345.在这种情况下，签署外部合约的用户 将不会了解交易。 如果TokenTransfer合约在其调用合约时需要额外的用户签名，则可能会排除此情况。 去做这个：
 
-1.在 *TokenTransfer* 合约的 *data* 部分添加一个名为 **Signature** 的字段，其中带有 ``optional`` 和 ``hidden`` 参数，这样就不需要额外的签名 直接呼叫合约，因为到目前为止 **签名** 字段中将有签名。
+1.在 *TokenTransfer* 合约的 *data* 部分添加一个名为 **Signature** 的字段，其中带有 ``optional`` 和 ``hidden`` 参数，这样就不需要额外的签名 直接调用合约，因为到目前为止 **Signature** 字段中将有签名。
 
 .. code:: js
 
@@ -176,11 +176,11 @@
 - 其值将显示给用户的字段名称及其文本说明，
 - 确认后要显示的文字。
   
-在当前的例子中，它将足够指定两个字段**收件人**和**金额**：
+在当前的例子中，它将足够指定两个字段**Receipient**和**Amount**：
 
-* **标题**：您是否同意将此收款人汇款？
-* **参数**：收件人文本：账户ID
-* **参数**：金额文本：金额（qEGS）
+* **Title**：您是否同意将此收款人汇款？
+* **Parameter**：Receipient 文本：Account ID
+* **Parameter**：Amount 文本：Amount（qEGS）
 
 现在，如果插入``TokenTransfer（“Recipient，Amount”，12345，100）``调用合约，系统错误```Signature'未定义'``将被显示。如果按照以下方式调用合约：TokenTransfer（“收件人，金额，签名”，12345,100，“xxx ... xxxxx”），系统错误将在签名验证时发生。在签订合约后，验证以下信息：*初始交易的时间，用户ID，签名表*中指定的字段的值，并且不可能伪造签名。
 
@@ -209,13 +209,13 @@
 - 编写合约代码（突出显示Simvolio语言的关键词，
 - 格式化合约源代码，
 - 将合约绑定到一个帐户，从中扣除执行的费用，
-- 定义编辑合约的权限（通常，通过指定具有特殊功能ContractConditions中规定的权限的合约名称，或通过直接指示更改条件字段中的访问条件），
+- 定义编辑合约的权限（通常，通过指定具有特殊函数ContractConditions中规定的权限的合约名称，或通过直接指示更改条件字段中的访问条件），
 - 通过恢复以前版本的选项查看对合约所做更改的历史记录。
 
 ************************************************** ******************************
 Simvolio合约语言
 ************************************************** ******************************
-平台中的合约使用原始（由平台团队开发）图灵完整脚本语言Simvolio编写，并编译为字节码。该语言包括一组函数，操作符和构造，可用于实现数据处理算法和数据库操作。 Simvolio语言提供：
+平台中的合约使用原始（由平台团队开发）图灵完整脚本语言Simvolio编写，并编译为字节码。该语言包括一组函数，操作符和结构体，可用于实现数据处理算法和数据库操作。 Simvolio语言提供：
 
 - 声明不同数据类型的变量，以及简单的和关联的数组：var，array，map，
 - 使用“if”条件语句和“while”循环结构，
@@ -278,7 +278,7 @@ Simvolio合约语言
     s = Sprintf("%v, %v, %v", myarr[0] + mymap["value"], myarr[1], mymap["param"])
     // s = 877, This is a line, Parameter 
 
-如果和当语句
+If 和 While 语句
 ------------------------------
 合约语言支持标准 if和while循环，可用于函数和合约。 这些语句可以相互嵌套。
 
@@ -292,7 +292,7 @@ Simvolio合约语言
       ...
     }
 
-The **while** statement is intended for implementation of loops. A **while** block will be executed while its condition is true. The **break** operator is used to end a loop inside a block. To start a loop from the beginning, the **continue** operator should be used.
+*while*语句旨在实现循环。 A *while*块将在条件为真时执行。 *break*运算符用于结束块内的循环。 要从头开始循环，应该使用*continue*运算符。
 
 .. code:: js
 
@@ -307,14 +307,14 @@ The **while** statement is intended for implementation of loops. A **while** blo
       ...
   }
 
-Apart from conditional statements, the language supports standard arithmetic operations: ``+,-,*,/``
-Variables of **string** and **bytes** types can be used as a condition. In this case, the condition will be true when the length of the string (bytes) is greater than zero, and false for an empty string.
+除条件语句外，该语言还支持标准算术运算：``+， - ，*，/``
+* string *和* bytes *类型的变量可以用作条件。 在这种情况下，当字符串（字节）的长度大于零时，条件将为真，对于空字符串，则为假。
 
-Functions
+函数
 ------------------------------
-Functions of the contracts language perform operations with data received in the data section of a contract: reading and writing database values, converting value types, and establishing connections between contracts.
+合约语言的函数用合约的数据部分收到的数据执行操作：读取和写入数据库值，转换价值类型以及建立合约之间的连接。
 
-Functions are declared with the **func** keyword, followed by the function name and a list of parameters passed to it (with their types), all enclosed in curly brackets and separated by commas. After the closing curly bracket the data type of the value returned by the function should be stated. The function body should be enclosed in curly brackets. If a function does not have parameters, then the curly brackets are not necessary. To return a value from a function, the ``return`` keyword is used.
+函数是用* func *关键字声明的，接着是函数名和传递给它的参数列表（以及它们的类型），全部用大括号括起来，并用逗号分隔。 在结束大括号之后，应该说明函数返回值的数据类型。 函数体应该放在大括号内。 如果函数没有参数，则大括号不是必需的。 要从函数返回值，使用`return`关键字。
 
 .. code:: js
 
@@ -328,9 +328,9 @@ Functions are declared with the **func** keyword, followed by the function name 
       error "Ooops..."
   }
   
-Functions don't return errors, because all error checks are carried out automatically. When an error is generated in any function, the contract stops its operation and displays a window with the error description.
+函数不会返回错误，因为所有错误检查都是自动执行的。 在任何函数中产生错误时，合同将停止其操作并显示一个包含错误描述的窗口。
 
-An undefined number of parameters can be passed to a function. To do this, put **...** instead of the type of the last parameter. In this case, the data type of the last parameter will be *array*, and it will contain all, starting from this parameter, variables that were passed with the call. Variables of any type can be passed, but you should take care of possible conflicts related to data type mismatch.
+未定义数量的参数可以传递给一个函数。 要做到这一点，把* ... *，而不是最后一个参数的类型。 在这种情况下，最后一个参数的数据类型将是* array *，并且它将包含从此参数开始的所有随该调用传递的变量的所有数据类型。 任何类型的变量都可以通过，但是您应该注意与数据类型不匹配有关的可能冲突。
 
 .. code:: js
 
@@ -348,7 +348,7 @@ An undefined number of parameters can be passed to a function. To do this, put *
      sum("Sum:", 10, 20, 30, 40)
   }
   
-Let's consider a situation, where a function has many parameters, but we need only some of them when calling it. In this case, optional parameters can be declared in the following way: ``func myfunc(name string).Param1(param string).Param2(param2 int) {...}``. You can specify only the parameters you need with the call in arbitrary order: ``myfunc("name").Param2(100)``. In the function body you can address these variables as usual. If an extended parameter is not specified with the call, it will have the default value, for example, an empty string for a string and zero for a number. It should be noted, that you can specify several extended parameters and use ``...``: ``func DBFind(table string).Where(request string, params ...)`` and call ``DBFind("mytable").Where("id > ? and type = ?", myid, 2)``
+让我们考虑一个情况，一个函数有很多参数，但是在调用它的时候我们只需要其中的一部分。在这种情况下，可以通过以下方式声明可选参数：`func myfunc（name string）.Param1（param string）.Param2（param2 int）{...}`。您可以按任意顺序仅指定调用所需的参数：`myfunc（“name”）.Param2（100）`。在函数体中，您可以像平常一样处理这些变量。如果未在调用中指定扩展参数，则它将具有默认值，例如，字符串为空字符串，数字为零。需要注意的是，你可以指定几个扩展参数并使用`...`：`func DBFind（table string）.Where（request string，params ...）`并调用`DBFind（“mytable”）。 （“id>？和type =？”，myid，2）`
 
 .. code:: js
  
@@ -362,18 +362,18 @@ Let's consider a situation, where a function has many parameters, but we need on
        return DBFind("table").Columns("name").Where("id=?", 100).Limit(1)
     }
 
-Predefined values
+预定义的值（默认值，零值）
 ------------------------------
-The following variables are available when executing a contract. 
+执行合同时可以使用以下变量。
 
-* ``$key_id`` - a numerical identifier (int64) of the account that signed the transaction,
-* ``$ecosystem_id`` - identifier of the ecosystem where the transaction was created, 
-* ``$type`` identifier of an external contract from where the current contract was called, 
-* ``$time`` - time specified in the transaction in Unix format, 
-* ``$block`` - block number in which this transaction is sealed, 
-* ``$block_time`` - time specified in the block, 
-* ``$block_key_id`` - numeric identifier (int64) of the node that signed the block,
-* ``$auth_token`` is the authorization token, which can be used in VDE contracts, for example, when calling contracts though API with the ``HTTPRequest`` function.
+*`$key_id` - 签名事务的帐户的数字标识符（int64）
+*`$ecosystem_id` - 创建交易的生态系统的标识符，
+*当前合同被调用的外部合同的`$ type`标识符，
+*`$time` - 在Unix格式的事务中指定的时间，
+*`$block` - 这个交易被封闭的块号，
+*`$block_time` - 块中指定的时间，
+*`$block_key_id` - 签署该块的节点的数字标识符（int64）
+*`$auth_token`是授权令牌，可以在VDE合约中使用，例如，通过具有`HTTPRequest`功能的API调用合约时。
 
 .. code:: js
 
@@ -382,24 +382,24 @@ The following variables are available when executing a contract.
 	pars["vde"] = "false"
 	ret = HTTPRequest("http://localhost:7079/api/v2/node/mycontract", "POST", heads, pars)
 
-It should be kept in mind that these variables are available not only in the functions of the contract but also in other functions and expressions, for example, in conditions that are specified for contracts, pages and other objects. In this case, *$time*, *$block* variables related to the block and others are equal to 0.
+应该记住，这些变量不仅在合同的功能中可用，而且在其他功能和表达中也是可用的，例如，在为合同，页面和其他对象指定的条件下。在这种情况下，与块等有关的* $ time *，* $ block *变量等于0。
 
-The value that needs to be returned from the contract should be assigned to a predefined variable ``$result``.
+需要从合同返回的值应该分配给预定义的变量`$ result`
 
-Retrieving values from the database
+从数据库中检索值
 ==============================
 DBFind(table string) [.Columns(columns string)] [.Where(where string, params ...)] [.WhereId(id int)] [.Order(order string)] [.Limit(limit int)] [.Offset(offset int)] [.Ecosystem(ecosystemid int)] array
 ------------------------------
-The Function receives data from a database table in accordance with the request specified. Returned is an *array* comprised of *map* associative arrays.
+函数根据指定的请求从数据库表中接收数据。返回的是由* map *关联数组组成的*数组*。
 
 * *table* - table name,
-* *сolumns* - list of returned columns. If not specified, all columns will be returned, 
-* *Where* - search condition. For instance, ``.Where("name = 'John'")`` or ``.Where("name = ?", "John")``,
-* *id* - search by identifier. For example, *.WhereId(1)*,
-* *order* - a field, which will be used for sorting. By default, values are sorted by *id*,
-* *limit* - number of returned values (default = 25, maximum = 250),
-* *offset* - returned values offset,
-* *ecosystemid* - ecosystem ID. By default, values are taken from the table in the current ecosystem.
+* *сolumns* - 返回列的列表。如果未指定，则将返回所有列 
+* *Where* - 搜索条件。例如 ``.Where("name = 'John'")`` or ``.Where("name = ?", "John")``,
+* *id* - 通过标识符搜索。例如， *.WhereId(1)*,
+* *order* - 一个字段，将用于分类。默认情况下，值按* id *排序
+* *limit* - 返回值的数量(default = 25, maximum = 250),
+* *offset* - 返回值偏移量,
+* *ecosystemid* - 生态系统ID。默认情况下，值取自当前生态系统中的表格。
 
 .. code:: js
 
@@ -420,7 +420,7 @@ The Function receives data from a database table in accordance with the request 
 
 DBRow(table string) [.Columns(columns string)] [.Where(where string, params ...)] [.WhereId(id int)] [.Order(order string)] [.Ecosystem(ecosystemid int)] map
 ------------------------------
-The function returns an associative array *map* with data obtained from a database table in accordance with the specified query.
+该函数根据指定的查询返回一个关联数组* map *和从数据库表中获取的数据。
 
  * *table* - table name,
  * *columns* - a list of columns to be returned. If not specified, all columns will be returned, 
@@ -448,7 +448,7 @@ The function returns the value of a specified parameter from the ecosystem setti
 
 LangRes(label string, lang string) string
 ------------------------------
-This function returns a language resource with name label for language lang, specified as a two-character code, for instance, *en, fr, ru*; if there is no language resource for a selected language, the result will be returned in English.
+这个函数返回一个语言资源，其语言lang的名称标签，指定为两个字符的代码，例如* en，fr，ru *; 如果所选语言没有语言资源，则结果将以英文返回。
 
 * *label* - language resource name,
 * *lang* - two-character language code.
@@ -462,7 +462,7 @@ Changing values in tables
 ==============================
 DBInsert(table string, params string, val ...) int
 ------------------------------
-The function adds a record to a specified *table* and returns the **id** of the inserted record.
+该函数将一条记录添加到指定的* table *并返回插入记录的* id *。
 
 * *tblname*  – name of the table in the database,
 * *params* - list of comma-separated names of columns, where the values listed in **val** will be written,
@@ -487,7 +487,7 @@ The function changes the column values in the table in the record with a specifi
 
 DBUpdateExt(tblname string, column string, value (int|string), params string, val ...)
 ------------------------------
-The function updates columns in a record whose column has a specified value. The table should have an index for a specified column.
+该函数更新其列具有指定值的记录中的列。 该表应该有一个指定列的索引。
 
 * *tblname*  – name of the table in the database,
 * *column*  - name of the column by which the record will be searched for,
@@ -541,7 +541,7 @@ This function returns the number of elements in the specified array.
 
 Row(list array) map
 ------------------------------
-This function returns the first *map* associative array from the *list* array. If the *list* is empty, then the result will be an empty *map*. This function is mostly used with the DBFind function. The *list* parameter should not be specified in this case. 
+该函数返回* list *数组中的第一个* map *关联数组。 如果* list *为空，那么结果将是一个空的* map *。 该功能主要用于DBFind功能。 在这种情况下，不应指定* list *参数。
 
 * *list* - a map array, returned by the **DBFind** function.
 
@@ -553,7 +553,7 @@ This function returns the first *map* associative array from the *list* array. I
 
 One(list array, column string) string
 ------------------------------
-The function returns the value of the *column* key from the first associative array in the *list* array. If the *list* list is empty, then nil is returned. This function is mostly used with the DBFind function. The *list* parameter should not be specified in this case. 
+该函数从* list *数组中的第一个关联数组中返回* column *键的值。 如果* list *列表为空，则返回nil。 该功能主要用于DBFind功能。 在这种情况下，不应指定* list *参数。
 
 * *list* - a map array, returned by the **DBFind** function,
 * *column* - name of the returned key.
@@ -570,7 +570,7 @@ Operations with contracts and conditions
 ==============================
 CallContract(name string, params map)
 ------------------------------
-The function calls a contract by its name. All the parameters specified in the section *data* of the contract should be listed in the transmitted array. The function returns the value that was assigned to **$result**  variable in the contract.
+该函数按名称调用合同。 所有在合约部分* data *中指定的参数都应列在传输数组中。 该函数返回分配给合约中的* $ result *变量的值。
 
 * *name*  - name of the contract being called,
 * *params* - an associative array with input data for the contract.
@@ -583,7 +583,7 @@ The function calls a contract by its name. All the parameters specified in the s
 
 ContractAccess(name string, [name string]) bool
 ------------------------------
-The function checks whether the name of the executed contract matches with one of the names listed in the parameters. Typically used to control access of contracts to tables. The function is specified in the *Permissions* fields when editing table columns or in the *Insert* and *New Column* fields in the *Table permission* section.
+该函数检查执行合同的名称是否与参数中列出的名称之一匹配。 通常用于控制对表的合同访问。 在* Table权限*部分中编辑表格列或* Insert *和* New Column *字段时，该功能在* Permissions *字段中指定。
 
 * *name* – contract name.
 
@@ -594,7 +594,7 @@ The function checks whether the name of the executed contract matches with one o
     
 ContractConditions(name string, [name string]) bool
 ------------------------------
-The function calls the **conditions** section from contracts with specified names. For such contracts, the *data* block must be empty. If the conditions *conditions* is executed without errors, then *true* is returned. If an error is generated during execution, the parent contract will also end with this error. This function is usually used to control access of contracts to tables and can be called in the *Permissions* fields when editing system table.
+该函数从具有指定名称的合同中调用*条件*部分。 对于这样的合约，* data *块必须是空的。 如果条件*条件*无误地执行，则返回*真*。 如果在执行过程中产生错误，则父合同也将以此错误结束。 此功能通常用于控制合同对表的访问，并且可以在编辑系统表时在*权限*字段中调用。
 
 * *name* – contract name.
 
@@ -604,7 +604,7 @@ The function calls the **conditions** section from contracts with specified name
 
 EvalCondition(tablename string, name string, condfield string) 
 ------------------------------
-Function takes from the *tablename* table the value of the *condfield* field from the record with the *’name’* field, which is equal to the *name* parameter and checks if the condition from the field *condfield* is made. 
+函数从* tablename *表中获取*'name'*字段的* condfield *字段的值，该字段等于* name *参数，并检查字段* condfield *的条件是否成立。
 
 * *tablename* - name of the table,
 * *name* - value for searching by the field 'name',
@@ -616,7 +616,7 @@ Function takes from the *tablename* table the value of the *condfield* field fro
 
 ValidateCondition(condition string, state int) 
 ------------------------------
-The function tries to compile the condition specified in the *condition* parameter. If a mistake occurs during the compilation process, the mistake will be generated and the calling contract will complete is’s job. This function is designed to check the correctness of the conditions when they change.
+该函数试图编译* condition *参数中指定的条件。 如果在编译过程中发生错误，将会产生错误，并且通话合同将完成。 此功能旨在检查条件更改时的正确性。
 
 * *condition* - verifiable condition,
 * *state* - identifier of the state. Specifie 0 if checking for global conditions.
@@ -630,7 +630,7 @@ Operations with account addresses
 ==============================
 AddressToId(address string) int
 ------------------------------
-Function returns the the identification number of the citizen by the string value of the address of his account. If the wrong adress is specified, then 0 returns. 
+函数通过其账户地址的字符串值返回公民的身份证号码。 如果指定了错误的地址，则返回0。
 
 * *address* - the account adress in the format XXXX-...-XXXX or in the form of number.
 
@@ -851,20 +851,20 @@ The function updates the value and the condition of the system parameter. If you
 
 Date/time operations in PostgreSQL queries
 ==============================
-Functions do not allow direct possibilities to select, update, etc.. but they allow you to use the capabilities and functions of PostgreSQL when you get values and a description of the where conditions  in the samples. This includes, among other things, the functions for working with dates and time. For example, you need to compare the column *date_column* and the current time. If  *date_column* has the  type timestamp, then the expression will be the following ``date_column> now ()``. And if *date_column* stores time in Unix format as a number, then the expression will be ``to_timestamp (date_column)> now ()``.
+函数不允许直接选择，更新等。但是，它们允许您在获取样本中的值和描述条件时使用PostgreSQL的功能和功能。 其中包括处理日期和时间的功能。 例如，您需要比较* date_column *列和当前时间。 如果* date_column *具有类型时间戳，那么表达式将是以下`date_column> now（）`。 如果* date_column *将时间存储为Unix格式的数字，则该表达式将是`to_timestamp（date_column）> now（）`。
 
 .. code:: js
 
     to_timestamp(date_column) > now()
     date_initial < now() - 30 * interval '1 day'
     
-Consider the situation when we have a value in Unix format and we need to write it in a field of type *timestamp *. In this case, when listing fields, before the name of this column you need to specify **timestamp**.
+考虑一下当我们具有Unix格式的值时，我们需要将它写入* timestamp *类型的字段中。 在这种情况下，当列出字段时，在此列的名称之前，您需要指定* timestamp *。
 
 .. code:: js
 
    DBInsert("mytable", "name,timestamp mytime", "John Dow", 146724678424 )
 
-If you have a string value of time and you need to write it in a field with the type *timestamp*, in this case, **timestamp** must be specified before the value itself.
+如果你有一个字符串值的时间，并且你需要把它写在一个类型为* timestamp *的字段中，在这种情况下，* timestamp *必须在它本身的前面指定。
 
 .. code:: js
 
@@ -877,7 +877,7 @@ If you have a string value of time and you need to write it in a field with the 
 
 Functions for VDE
 ==============================
-The following functions can be used only in Virtual Dedicated Ecosystems (VDE) contracts.
+以下功能只能在虚拟专用生态系统（VDE）合同中使用。
 
 HTTPRequest(url string, method string, heads map, pars map) string
 ------------------------------
@@ -916,7 +916,7 @@ This function is similar to the *HTTPRequest* function, but it sends a *POST* re
 ************************************************
 System Contracts
 ************************************************
-System contracts are created by default during product installation. All of these contracts are created in the first ecosystem, that's why you need to specify their full name to call them from other ecosystems, for instance, ``@1NewContract``.
+系统合同是在产品安装期间默认创建的。 所有这些合同都是在第一个生态系统中创建的，这就是为什么您需要指定其全名以从其他生态系统调用它们，例如`@ 1NewContract`。
 
 List of System Contracts
 ==============================
@@ -955,7 +955,7 @@ Parameters
 
 ActivateContract
 ------------------------------
-Binding of a contract to the account in the current ecosystem. Contracts can be tied only from the account, which was specified when the contract was created. After the contract is tied, this account will pay for execution of this contract.
+将合同绑定到当前生态系统中的帐户。 合同只能与创建合同时指定的帐户绑定。 合约结算后，该账户将支付执行该合约的费用。
 
 Parameters
       
@@ -963,7 +963,7 @@ Parameters
 
 DeactivateContract
 ------------------------------
-Unbinds a contract from an account in the current ecosystem. Only the account which the contract is currently bound to can unbind it. After the contract is unbound, its execution will be paid by a user that executes it.
+取消当前生态系统中帐户的合同。 只有合同当前绑定的帐户才能解除绑定。 合同解约后，其执行将由执行它的用户支付。
  
  Parameters
  
